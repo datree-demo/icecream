@@ -65,7 +65,7 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
       uses: actions/aws/cli@master
       with:
-        args: aws > /dev/null 2>&1; sleep 30; aws ecr describe-image-scan-findings --repository-name icecream --image-id imageTag=$IMAGE_TAG
+        args: aws > /dev/null 2>&1; sleep 20; aws ecr describe-image-scan-findings --repository-name icecream --image-id imageTag=$IMAGE_TAG |jq '.imageScanFindings.findings[] | {severity}'
 
     # - name: Fill in the new image ID in the Amazon ECS task definition
     #   id: task-def
