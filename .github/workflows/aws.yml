@@ -59,10 +59,13 @@ jobs:
     
     - name: Check image for vulnerabilities
       id: ecr-scan
-      IMAGE_TAG: ${{ github.sha }}
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        IMAGE_TAG: ${{ github.sha }}
       uses: actions/aws/cli@master
-      run: |
-        aws ecr describe-image-scan-findings --repository-name icecream --image-id imageTag=$IMAGE_TAG
+      with:
+        args: ecr describe-image-scan-findings --repository-name icecream --image-id imageTag=$IMAGE_TAG
 
     # - name: Fill in the new image ID in the Amazon ECS task definition
     #   id: task-def
