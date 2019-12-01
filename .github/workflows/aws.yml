@@ -67,6 +67,15 @@ jobs:
       with:
         args: aws > /dev/null 2>&1; bash .github/workflows/getECRVln.sh $IMAGE_TAG
     
+    - name: Tag container as latest
+      id: ecr-latest
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: icecream
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
     - name: Deploy to ECS
       id: deploy-ecs
       env:
