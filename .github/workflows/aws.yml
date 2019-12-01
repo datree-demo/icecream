@@ -65,7 +65,7 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
       uses: actions/aws/cli@master
       with:
-        args: aws > /dev/null 2>&1; bash .github/workflows/getECRVln.sh
+        args: aws > /dev/null 2>&1; bash .github/workflows/getECRVln.sh $IMAGE_TAG
     
     - name: Deploy to ECS
       id: deploy-ecs
